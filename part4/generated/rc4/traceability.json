@@ -1,0 +1,49 @@
+{
+  "requirements": [
+    {
+      "id": "RC-4.1",
+      "source": "stories.md:90",
+      "statement": "An officer can withdraw a permit from the permit view.",
+      "evidence": [
+        "withdraw a permit",
+        "POST /api/permits/{permitNumber}/withdrawal"
+      ]
+    },
+    {
+      "id": "RC-4.2",
+      "source": "stories.md:91",
+      "statement": "A withdrawal reason is required and is at most 500 characters.",
+      "evidence": [
+        "reason",
+        "500 characters"
+      ]
+    },
+    {
+      "id": "RC-4.3",
+      "source": "stories.md:92",
+      "statement": "Withdrawal changes status to WITHDRAWN and records the reason in history.",
+      "evidence": [
+        "WITHDRAWN",
+        "history",
+        "history event"
+      ]
+    },
+    {
+      "id": "RC-4.4",
+      "source": "stories.md:93",
+      "statement": "Withdrawal does not refund anything.",
+      "evidence": [
+        "does not refund"
+      ]
+    },
+    {
+      "id": "RC-4.C1",
+      "source": "clarifications.md:95-98",
+      "statement": "A permit may be withdrawn only before its start date; after start it is cancellation.",
+      "evidence": [
+        "startDate > today",
+        "cancellation"
+      ]
+    }
+  ]
+}

@@ -26,6 +26,8 @@ backend/
   Spring Boot REST API
 frontend/
   React staff portal
+part4/
+  requirements-to-artifacts pipeline and RC-4 generated output
 ```
 
 ## Artifact chain
@@ -73,7 +75,4 @@ Open `http://localhost:5173`.
 ## Remaining submission work
 
 - Functional document
-- Agent pipeline and RC-4 output
-- Validation check for invented or dropped requirements
-- `DECISIONS.md`
 - AI conversation export
