@@ -26,7 +26,7 @@ backend/
   Spring Boot REST API
 frontend/
   React staff portal
-part4/
+requirements-pipeline/
   requirements-to-artifacts pipeline and RC-4 generated output
 ```
 

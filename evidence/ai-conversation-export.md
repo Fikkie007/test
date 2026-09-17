@@ -85,8 +85,8 @@ backend: .\mvnw.cmd test
 backend: .\mvnw.cmd verify
 frontend: npm run lint
 frontend: npm run build
-part4: python part4/pipeline.py --self-test
-part4: python part4/pipeline.py
+requirements-pipeline: python requirements-pipeline/pipeline.py --self-test
+requirements-pipeline: python requirements-pipeline/pipeline.py
 ```
 
 The backend tests, Maven verification, frontend lint/build, pipeline self-test, and RC-4 generation all

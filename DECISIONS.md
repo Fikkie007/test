@@ -6,7 +6,7 @@
 - Part 2 contains the React staff portal and Spring Boot API for search, view, quote, and renewal.
 - Part 3 records conflicts, assumptions, unresolved questions, owners, and suspected risks in
   `ASSUMPTIONS.md`.
-- Part 4 contains a runnable, dependency-free pipeline in `part4/pipeline.py`.
+- Part 4 contains a runnable, dependency-free pipeline in `requirements-pipeline/pipeline.py`.
 
 The Part 4 pipeline performs source intake, applies explicit RC-4 decisions, renders business and
 technical artifacts, emits a traceability manifest, generates a withdrawal policy, and validates the
@@ -42,7 +42,7 @@ The gate also rejects a small explicit list of unsupported code fields such as `
 and `paymentId`. This is intentionally narrow and explainable for the test slice. A production version
 would replace the list with schema and endpoint diff checks against an approved intermediate model.
 
-`python part4/pipeline.py --self-test` mutates generated output twice and proves that the gate catches:
+`python requirements-pipeline/pipeline.py --self-test` mutates generated output twice and proves that the gate catches:
 
 1. a removed 500-character requirement;
 2. an invented `actor` field.

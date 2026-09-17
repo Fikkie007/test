@@ -23,11 +23,11 @@ gate.
 From the repository root:
 
 ```bash
-python part4/pipeline.py --self-test
-python part4/pipeline.py
+python requirements-pipeline/pipeline.py --self-test
+python requirements-pipeline/pipeline.py
 ```
 
-The second command generates and validates `part4/generated/rc4/`.
+The second command generates and validates `requirements-pipeline/generated/rc4/`.
 
 The self-test proves both failure modes required by the brief:
 
