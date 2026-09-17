@@ -14,6 +14,7 @@ requirements/
 docs/
   business-flowchart.md
   technical-flowchart.md
+  functional-document.md
   technical-document.md
 diagrams/
   business-flowchart.json
@@ -41,8 +42,11 @@ docs/business-flowchart.md
         |
         v
 docs/technical-flowchart.md
-        |
-        v
+         |
+         v
+docs/functional-document.md
+         |
+         v
 docs/technical-document.md
 ```
 
@@ -71,5 +75,3 @@ npm run dev
 ```
 
 Open `http://localhost:5173`.
-
-## Remaining submission work

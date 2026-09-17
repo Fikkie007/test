@@ -91,3 +91,22 @@ requirements-pipeline: python requirements-pipeline/pipeline.py
 
 The backend tests, Maven verification, frontend lint/build, pipeline self-test, and RC-4 generation all
 completed successfully.
+
+## 7. Wrapping Up the Deliverables
+
+**User:** “check Deliverables in BRIEF.md what we missed”
+
+**Assistant:** Compared the repository against all eight deliverables and found two gaps: the Part 1
+functional document and the AI conversation export.
+
+**Correction:** Added `docs/functional-document.md` covering RC-1 to RC-3, then added this export.
+
+**User:** “named folder part4 is not contextual can you resolve it”
+
+**Assistant:** Renamed the pipeline directory to `requirements-pipeline`, updated all documentation and
+commands, reran the pipeline self-test, and safely removed the empty legacy directory. The rename was
+committed without deleting any files from the active pipeline.
+
+**Final check:** Reconciled the deliverables again, found all eight present, and corrected the root
+README artifact chain so it includes the functional document. The working tree was then prepared for the
+final commit.
