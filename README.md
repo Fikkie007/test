@@ -74,5 +74,4 @@ Open `http://localhost:5173`.
 
 ## Remaining submission work
 
-- Functional document
 - AI conversation export
