@@ -6,6 +6,8 @@ This repository contains the requirements analysis and design artifacts for the 
 
 ```text
 BRIEF.md
+AGENTS.md
+ASSUMPTIONS.md
 requirements/
   stories.md
   clarifications.md
@@ -20,6 +22,10 @@ diagrams/
   technical-flowchart.html
   evidence/
     browser validation receipts and screenshots
+backend/
+  Spring Boot REST API
+frontend/
+  React staff portal
 ```
 
 ## Artifact chain
@@ -38,13 +44,35 @@ docs/technical-flowchart.md
 docs/technical-document.md
 ```
 
+Part 2 implementation:
+
+```text
+frontend/  <->  backend/
+```
+
 The JSON and HTML files in `diagrams/` are the editable and rendered versions of the two flowcharts. The `evidence/` folder contains the automated browser validation output.
+
+## Run Part 2
+
+Start the API from `backend/`:
+
+```powershell
+$env:JAVA_HOME = 'C:\Program Files\Java\jdk-26.0.2'
+.\mvnw.cmd spring-boot:run
+```
+
+Start the portal from `frontend/` in a second terminal:
+
+```powershell
+npm install
+npm run dev
+```
+
+Open `http://localhost:5173`.
 
 ## Remaining submission work
 
-- `ASSUMPTIONS.md`
 - Functional document
-- React and Spring Boot implementation
 - Agent pipeline and RC-4 output
 - Validation check for invented or dropped requirements
 - `DECISIONS.md`

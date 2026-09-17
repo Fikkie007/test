@@ -1,0 +1,7 @@
+import { formatMoney } from '../lib/formatters'
+
+export default function RenewalCard({ permit, renewal, setRenewal, onQuote, onConfirm }) {
+  const canStart = permit.status === 'ACTIVE' || permit.status === 'EXPIRED'
+
+  return <article className="card renewal-card"><p className="card-kicker">Renew permit</p><h3>Extend use of this hall</h3><p className="muted">Enter a new end date. The current permit is unchanged until you confirm the quote.</p>{!canStart && <div className="notice notice-warn">This permit cannot be renewed in its current status.</div>}{canStart && <form onSubmit={onQuote}><label>New end date<input type="date" value={renewal.newEndDate} min={permit.endDate} onChange={(event) => setRenewal((current) => ({ ...current, newEndDate: event.target.value, quote: null }))} required /></label><button className="button button-primary full-width" type="submit" disabled={renewal.loading}>{renewal.loading ? 'Calculating...' : 'Calculate renewal fee'}</button></form>}{renewal.error && <div className="notice notice-error" role="alert">{renewal.error}</div>}{renewal.quote && <div className="quote-box"><div><span className="card-kicker">Amount to confirm</span><strong>{formatMoney(renewal.quote.fee)}</strong></div><p>{renewal.quote.paymentRequired ? 'This renewal will move to awaiting payment.' : 'No payment is required for this renewal.'}</p><button className="button button-primary full-width" onClick={onConfirm} disabled={renewal.confirming}>{renewal.confirming ? 'Saving...' : 'Confirm renewal'}</button></div>}</article>
+}

@@ -40,7 +40,41 @@ Repositories
 
 The browser never calculates or trusts a fee. The API reads the current permit and hall rate, validates the requested date, calculates the fee, and repeats those checks when the renewal is confirmed.
 
-## 3. Data model
+## 3. Reference-data endpoint
+
+### `GET /api/reference-data`
+
+Returns the values needed to render search controls. This keeps hall and purpose names in API data rather than duplicating them in React.
+
+Example response:
+
+```json
+{
+  "halls": [
+    {
+      "id": "riverside-community-hall",
+      "name": "Riverside Community Hall",
+      "district": "Riverside"
+    }
+  ],
+  "purposes": [
+    { "value": "COMMUNITY_EVENT", "name": "Community Event" },
+    { "value": "COUNCIL_USE", "name": "Council Use" }
+  ],
+  "statuses": [
+    { "value": "ACTIVE", "name": "Active" },
+    { "value": "EXPIRED", "name": "Expired" },
+    { "value": "AWAITING_PAYMENT", "name": "Awaiting payment" },
+    { "value": "WITHDRAWN", "name": "Withdrawn" }
+  ]
+}
+```
+
+Response:
+
+- `200 OK`: current reference data.
+
+## 4. Data model
 
 ### Hall
 
@@ -102,7 +136,7 @@ The full hall name and purpose name are returned to the portal. Internal codes a
 
 Actor identity is not included because authentication and user identity were not defined in the supplied requirements. This is an open audit requirement, not an invented field.
 
-## 4. Statuses and transitions
+## 5. Statuses and transitions
 
 | Current status | Action | Condition | Result |
 |---|---|---|---|
@@ -116,7 +150,7 @@ Actor identity is not included because authentication and user identity were not
 
 Payment processing is external. This service only sets `AWAITING_PAYMENT` for a chargeable renewal.
 
-## 5. Search endpoint
+## 6. Search endpoint
 
 ### `GET /api/permits`
 
@@ -174,7 +208,7 @@ An empty result is a successful response with `content: []`, not an error.
 
 The Reset control is client-side behaviour: clear all query parameters and request the default list again.
 
-## 6. Permit detail endpoint
+## 7. Permit detail endpoint
 
 ### `GET /api/permits/{permitNumber}`
 
@@ -207,7 +241,7 @@ Responses:
 
 This endpoint performs no writes. The portal keeps the current search filters when navigating back to the result grid.
 
-## 7. Renewal quote endpoint
+## 8. Renewal quote endpoint
 
 ### `POST /api/permits/{permitNumber}/renewal-quote`
 
@@ -258,7 +292,7 @@ The quote response must identify whether payment is required:
 
 The fee is calculated by the API and displayed before confirmation. Cancelling or navigating away after this response performs no write.
 
-## 8. Renewal confirmation endpoint
+## 9. Renewal confirmation endpoint
 
 ### `POST /api/permits/{permitNumber}/renewals`
 
@@ -299,7 +333,7 @@ Failure responses:
 - `400 Bad Request`: new end date is invalid.
 - `409 Conflict`: permit is not eligible, or its version changed since the quote was displayed.
 
-## 9. Error response shape
+## 10. Error response shape
 
 All expected validation and business errors use the same shape:
 
@@ -313,9 +347,10 @@ All expected validation and business errors use the same shape:
 
 The React portal displays `message` near the relevant action. It must not expose stack traces or raw persistence errors.
 
-## 10. Frontend behaviour
+## 11. Frontend behaviour
 
 - The register screen sends filters and paging state to `GET /api/permits`.
+- The register screen loads hall, purpose, and status labels from `GET /api/reference-data`.
 - Loading, empty, error, and populated states are distinct.
 - Hall and purpose names come from the API response, not client-side code tables.
 - Selecting a row opens the detail route without clearing search filters.
@@ -325,7 +360,7 @@ The React portal displays `message` near the relevant action. It must not expose
 - Confirmation refreshes the permit detail after a successful renewal.
 - A failed confirmation leaves the current permit view unchanged and shows the API error.
 
-## 11. Seed data requirements
+## 12. Seed data requirements
 
 Seed at least:
 
@@ -339,7 +374,7 @@ Seed at least:
 
 The supplied sample records are illustrative. Additional records are required to demonstrate the business rules.
 
-## 12. Explicitly unresolved items
+## 13. Explicitly unresolved items
 
 - Official permit numbering is unresolved. The sample `P-2026-0001` format is used for this slice and the generator is isolated for later replacement.
 - The requested start-date sorting is not implemented because it conflicts with the signed-off newest-first rule and was not approved by the BA.
@@ -348,28 +383,29 @@ The supplied sample records are illustrative. Additional records are required to
 - Draft status needs confirmed behaviour before it can be added to the register.
 - The date-range overlap rule is an implementation assumption and should be confirmed by the BA.
 
-## 13. Traceability
+## 14. Traceability
 
 | Requirement | Implementation section |
 |---|---|
-| RC-1.1 filters | Section 5 |
-| RC-1.2 optional filters | Section 5 |
-| RC-1.3 paging and newest first | Section 5 |
-| RC-1.4 result fields | Section 5 |
-| RC-1.5 reset | Section 5 and Section 10 |
-| RC-1.6 empty state | Section 5 and Section 10 |
-| RC-2.1 full permit and renewal history | Section 6 |
-| RC-2.2 read-only view | Section 6 and Section 10 |
-| RC-2.3 preserve search filters | Section 6 and Section 10 |
-| RC-3.1 new end date | Section 7 |
-| RC-3.2 date validation | Section 7 |
-| RC-3.3 renewal eligibility | Section 4 and Section 7 |
-| RC-3.4 renewal fee | Section 7 |
-| RC-3.5 confirmation before saving | Section 7 and Section 8 |
-| RC-3.6 renewal, permit, status, and history writes | Section 8 |
-| Finance fee cap | Section 7 |
-| Finance Council Use rule | Section 3 and Section 7 |
-| Finance 90-day rule | Section 4 and Section 7 |
-| Full hall and purpose names | Section 3 and Section 10 |
-| Payment outside this service | Section 4 and Section 8 |
-| Halls must not be hardcoded | Section 3 |
+| RC-1.1 filters | Section 6 |
+| RC-1.2 optional filters | Section 6 |
+| RC-1.3 paging and newest first | Section 6 |
+| RC-1.4 result fields | Section 6 |
+| RC-1.5 reset | Section 6 and Section 11 |
+| RC-1.6 empty state | Section 6 and Section 11 |
+| RC-2.1 full permit and renewal history | Section 7 |
+| RC-2.2 read-only view | Section 7 and Section 11 |
+| RC-2.3 preserve search filters | Section 7 and Section 11 |
+| RC-3.1 new end date | Section 8 |
+| RC-3.2 date validation | Section 8 |
+| RC-3.3 renewal eligibility | Section 5 and Section 8 |
+| RC-3.4 renewal fee | Section 8 |
+| RC-3.5 confirmation before saving | Section 8 and Section 9 |
+| RC-3.6 renewal, permit, status, and history writes | Section 9 |
+| Finance fee cap | Section 8 |
+| Finance Council Use rule | Section 4 and Section 8 |
+| Finance 90-day rule | Section 5 and Section 8 |
+| Full hall and purpose names | Section 4 and Section 11 |
+| Payment outside this service | Section 5 and Section 9 |
+| Halls must not be hardcoded | Section 3 and Section 4 |
+| API-backed filter options | Section 3 and Section 11 |

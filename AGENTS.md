@@ -108,3 +108,8 @@ Do not add these to Part 2 unless the requirements are formally expanded:
 - Add focused tests for non-trivial business rules.
 - Keep commits small and meaningful. Do not squash the history.
 - Review the diff before committing.
+- With Eclipse null analysis enabled, prefer explicit lambdas over unbound instance method references such as `Hall::active` or `String::trim`; this avoids unchecked receiver nullness conversions.
+- Keep services cohesive and small: separate query, renewal, and persistence responsibilities instead of allowing one service to become a catch-all.
+- Preserve meaningful failure context when wrapping persistence errors; log the cause server-side while returning only the documented API error shape.
+- Follow established Spring and Java best practices: keep controllers thin, keep business rules in services, use constructor injection, validate at API boundaries, and run the relevant tests after refactoring.
+- Keep React components focused and readable: move API calls and formatting helpers out of page components, split dense UI sections into focused components, preserve explicit loading/error states, and avoid unnecessary re-render abstractions.
