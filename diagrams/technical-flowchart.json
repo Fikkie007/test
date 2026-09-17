@@ -1,0 +1,29 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Technical flow: search, view and renew a permit",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "portal", "label": "React Staff Portal" },
+    { "id": "api", "label": "Spring Boot API" },
+    { "id": "data", "label": "Permit Data" }
+  ],
+  "mainPath": ["register", "list-api", "query-data", "grid", "detail-api", "renewal-service"],
+  "nodes": [
+    { "id": "register", "lane": "portal", "col": 0, "type": "frontend", "label": "Permit register", "sublabel": "filters + paging", "width": 150 },
+    { "id": "list-api", "lane": "api", "col": 1, "type": "backend", "label": "GET /api/permits", "sublabel": "size 10, createdAt desc", "width": 180 },
+    { "id": "query-data", "lane": "data", "col": 2, "type": "database", "label": "PermitRepository", "sublabel": "read matching page", "width": 170 },
+    { "id": "grid", "lane": "portal", "col": 3, "type": "frontend", "label": "Permit grid", "sublabel": "rows or empty state", "width": 150 },
+    { "id": "detail-api", "lane": "api", "col": 4, "type": "backend", "label": "GET /api/permits/{number}", "sublabel": "read-only detail + history", "width": 210 },
+    { "id": "renewal-service", "lane": "api", "col": 5, "type": "backend", "label": "RenewalService", "sublabel": "quote, confirm, validate and write transaction", "width": 230 }
+  ],
+  "edges": [
+    { "id": "search", "from": "register", "to": "list-api", "label": "search", "role": "main" },
+    { "id": "read-page", "from": "list-api", "to": "query-data", "label": "read", "role": "main" },
+    { "id": "show-grid", "from": "query-data", "to": "grid", "label": "200 page", "role": "return" },
+    { "id": "open-detail", "from": "grid", "to": "detail-api", "label": "select row", "role": "main" },
+    { "id": "renewal-flow", "from": "detail-api", "to": "renewal-service", "label": "quote then confirm", "role": "main" }
+  ]
+}

@@ -1,0 +1,44 @@
+{
+  "schema_version": 2,
+  "diagram_type": "workflow",
+  "meta": {
+    "title": "Search, view and renew a permit",
+    "quality_profile": "showcase"
+  },
+  "lanes": [
+    { "id": "officer", "label": "Permits Officer" },
+    { "id": "register", "label": "Permit Register" },
+    { "id": "renewal", "label": "Renewal Decision", "variant": "exception" }
+  ],
+  "mainPath": ["start", "search", "results", "view", "date", "valid-date", "eligible", "fee", "confirm", "updated"],
+  "nodes": [
+    { "id": "start", "lane": "officer", "col": 0, "type": "external", "label": "Open permit register", "width": 150 },
+    { "id": "search", "lane": "officer", "col": 1, "type": "frontend", "label": "Enter optional search details", "sublabel": "number, holder, hall, purpose, status or dates", "width": 220 },
+    { "id": "results", "lane": "register", "col": 2, "type": "frontend", "label": "View matching permits", "sublabel": "newest permits first", "width": 150 },
+    { "id": "empty", "lane": "register", "col": 2, "type": "frontend", "label": "Show no matches", "sublabel": "try another search", "width": 150, "yOffset": 82 },
+    { "id": "view", "lane": "officer", "col": 3, "type": "frontend", "label": "View permit details", "sublabel": "including renewal history", "width": 160 },
+    { "id": "date", "lane": "officer", "col": 4, "type": "frontend", "label": "Enter a new end date", "width": 160 },
+    { "id": "valid-date", "lane": "renewal", "col": 4, "type": "security", "label": "Is the new date later?", "width": 160 },
+    { "id": "eligible", "lane": "renewal", "col": 5, "type": "security", "label": "Can this permit be renewed?", "sublabel": "active, or expired within 90 days", "width": 180 },
+    { "id": "fee", "lane": "register", "col": 5, "type": "frontend", "label": "Review the renewal fee", "sublabel": "capped at 30 days", "width": 160 },
+    { "id": "confirm", "lane": "officer", "col": 5, "type": "frontend", "label": "Confirm the renewal", "width": 160 },
+    { "id": "updated", "lane": "register", "col": 5, "type": "external", "label": "Permit updated", "sublabel": "history recorded", "width": 150, "yOffset": 82 },
+    { "id": "blocked", "lane": "renewal", "col": 5, "type": "external", "label": "Renewal unavailable", "sublabel": "submit a new booking", "width": 170, "yOffset": 82 }
+  ],
+  "edges": [
+    { "id": "open-search", "from": "start", "to": "search", "role": "main" },
+    { "id": "matches", "from": "search", "to": "results", "label": "matches found", "role": "main" },
+    { "id": "no-matches", "from": "search", "to": "empty", "label": "no matches", "role": "branch" },
+    { "id": "try-again", "from": "empty", "to": "search", "label": "try again", "role": "branch" },
+    { "id": "select", "from": "results", "to": "view", "label": "select a permit", "role": "main" },
+    { "id": "start-renewal", "from": "view", "to": "date", "label": "start renewal", "role": "main" },
+    { "id": "check-date", "from": "date", "to": "valid-date", "role": "main" },
+    { "id": "date-invalid", "from": "valid-date", "to": "date", "label": "no", "role": "error" },
+    { "id": "date-valid", "from": "valid-date", "to": "eligible", "label": "yes", "role": "main" },
+    { "id": "not-eligible", "from": "eligible", "to": "blocked", "label": "no", "role": "error" },
+    { "id": "eligible-renewal", "from": "eligible", "to": "fee", "label": "yes", "role": "main" },
+    { "id": "show-fee", "from": "fee", "to": "confirm", "role": "main" },
+    { "id": "cancel", "from": "confirm", "to": "fee", "label": "cancel", "role": "branch" },
+    { "id": "save", "from": "confirm", "to": "updated", "label": "confirm", "role": "main" }
+  ]
+}
